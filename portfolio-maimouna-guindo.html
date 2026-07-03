@@ -1,0 +1,561 @@
+<!DOCTYPE html>
+<html lang="fr" data-theme="dark">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Maïmouna Guindo — Portfolio Cloud & Développement</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;500;600;700&family=Fraunces:ital,opsz,wght@1,9..144,500&family=JetBrains+Mono:wght@400;500;600&family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+<style>
+  :root[data-theme="dark"]{
+    --bg: #060814;
+    --bg2: #0B0F20;
+    --panel: rgba(255,255,255,.045);
+    --panel-solid: #101527;
+    --border: rgba(255,255,255,.10);
+    --border-strong: rgba(255,255,255,.20);
+    --ink: #F5F6FC;
+    --ink-dim: #9AA1C4;
+    --violet: #9B6DFF;
+    --cyan: #34E1E8;
+    --coral: #FF7A66;
+    --grad: linear-gradient(120deg, #9B6DFF 0%, #34E1E8 100%);
+    --grad-soft: linear-gradient(120deg, rgba(155,109,255,.25), rgba(52,225,232,.25));
+    --glow: 0 0 0 1px var(--border), 0 20px 60px rgba(90,60,220,.18);
+    --shadow: 0 20px 50px rgba(0,0,0,.35);
+  }
+  :root[data-theme="light"]{
+    --bg: #F6F7FD;
+    --bg2: #FFFFFF;
+    --panel: rgba(16,20,40,.03);
+    --panel-solid: #FFFFFF;
+    --border: rgba(16,20,40,.10);
+    --border-strong: rgba(16,20,40,.22);
+    --ink: #11142B;
+    --ink-dim: #565D7C;
+    --violet: #7C3AED;
+    --cyan: #0891A8;
+    --coral: #E85D3F;
+    --grad: linear-gradient(120deg, #7C3AED 0%, #0891A8 100%);
+    --grad-soft: linear-gradient(120deg, rgba(124,58,237,.12), rgba(8,145,168,.12));
+    --glow: 0 0 0 1px var(--border), 0 20px 50px rgba(90,60,220,.08);
+    --shadow: 0 16px 40px rgba(16,20,40,.08);
+  }
+
+  *{box-sizing:border-box; margin:0; padding:0;}
+  html{scroll-behavior:smooth;}
+  body{
+    background:var(--bg);
+    color:var(--ink);
+    font-family:'Inter', sans-serif;
+    line-height:1.6;
+    transition:background-color .4s ease, color .4s ease;
+    overflow-x:hidden;
+    position:relative;
+  }
+  a{color:inherit;}
+  .mono{font-family:'JetBrains Mono', monospace;}
+  .wrap{max-width:1080px; margin:0 auto; padding:0 28px; position:relative; z-index:2;}
+  section{padding:120px 0; position:relative; z-index:2;}
+  @media (max-width:640px){ section{padding:78px 0;} }
+
+  /* AURORA BACKGROUND */
+  .aurora{position:fixed; inset:0; z-index:0; overflow:hidden; pointer-events:none;}
+  .blob{position:absolute; border-radius:50%; filter:blur(90px); opacity:.55; transition:transform .4s ease-out;}
+  [data-theme="light"] .blob{opacity:.28;}
+  .b1{width:520px; height:520px; background:var(--violet); top:-160px; left:-120px;}
+  .b2{width:460px; height:460px; background:var(--cyan); top:120px; right:-160px;}
+  .b3{width:420px; height:420px; background:var(--coral); bottom:-200px; left:30%;}
+  .grain{position:fixed; inset:0; z-index:1; pointer-events:none; opacity:.03; background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='120' height='120'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='2'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E");}
+
+  .eyebrow{
+    font-family:'JetBrains Mono', monospace; font-size:.72rem; letter-spacing:.14em; text-transform:uppercase;
+    background:var(--grad); -webkit-background-clip:text; background-clip:text; color:transparent;
+    display:flex; align-items:center; gap:8px; margin-bottom:14px; font-weight:600;
+  }
+  .eyebrow::before{content:"";width:18px;height:2px;background:var(--grad); border-radius:2px;}
+
+  h1,h2,h3{font-family:'Space Grotesk', sans-serif; font-weight:600; color:var(--ink); letter-spacing:-.02em;}
+  h2{font-size:clamp(1.7rem,3.2vw,2.5rem); margin-bottom:8px;}
+  .section-sub{color:var(--ink-dim); max-width:560px; margin-bottom:52px; font-size:.98rem;}
+
+  ::selection{background:var(--violet); color:#fff;}
+
+  /* NAV */
+  nav{position:fixed; top:0; left:0; right:0; z-index:100; background:color-mix(in srgb, var(--bg) 72%, transparent); backdrop-filter:blur(14px); border-bottom:1px solid var(--border);}
+  .nav-inner{max-width:1080px; margin:0 auto; padding:16px 28px; display:flex; align-items:center; justify-content:space-between;}
+  .brand{font-family:'Space Grotesk', sans-serif; font-weight:700; font-size:1.05rem; display:flex; align-items:center; gap:9px;}
+  .brand .dot{width:9px;height:9px;border-radius:50%; background:var(--grad); box-shadow:0 0 12px var(--cyan);}
+  .nav-links{display:flex; gap:26px; list-style:none;}
+  .nav-links a{font-family:'JetBrains Mono', monospace; font-size:.76rem; letter-spacing:.02em; color:var(--ink-dim); text-decoration:none; position:relative; padding:4px 0; transition:color .2s;}
+  .nav-links a:hover, .nav-links a.active{color:var(--ink);}
+  .nav-links a.active::after{content:"";position:absolute; left:0; right:0; bottom:-6px; height:2px; background:var(--grad); border-radius:2px;}
+  .nav-right{display:flex; align-items:center; gap:14px;}
+  #themeToggle{width:38px;height:38px;border-radius:9px; border:1px solid var(--border); background:var(--panel); cursor:pointer; display:flex; align-items:center; justify-content:center; color:var(--ink); transition:border-color .2s, transform .2s;}
+  #themeToggle:hover{border-color:var(--border-strong); transform:translateY(-1px);}
+  #themeToggle:focus-visible, a:focus-visible, button:focus-visible{outline:2px solid var(--cyan); outline-offset:2px;}
+  .burger{display:none; background:none;border:none;cursor:pointer;color:var(--ink);}
+  @media (max-width:780px){
+    .nav-links{position:fixed; top:65px; left:0; right:0; background:var(--bg2); flex-direction:column; padding:22px 28px; gap:18px; border-bottom:1px solid var(--border); transform:translateY(-140%); transition:transform .3s ease;}
+    .nav-links.open{transform:translateY(0);}
+    .burger{display:block;}
+  }
+
+  /* HERO */
+  .hero{padding:180px 0 110px;}
+  .hero-grid{display:grid; grid-template-columns:1fr .95fr; gap:56px; align-items:center;}
+  @media (max-width:920px){.hero-grid{grid-template-columns:1fr;} .hero{padding-top:135px;}}
+  .status-pill{display:inline-flex; align-items:center; gap:8px; padding:7px 14px; border-radius:100px; border:1px solid var(--border); background:var(--panel); backdrop-filter:blur(8px); font-family:'JetBrains Mono',monospace; font-size:.72rem; color:var(--ink-dim); margin-bottom:26px;}
+  .status-pill .pulse{width:7px;height:7px;border-radius:50%; background:var(--cyan); position:relative; box-shadow:0 0 8px var(--cyan);}
+  .status-pill .pulse::after{content:"";position:absolute;inset:-4px;border-radius:50%;border:1px solid var(--cyan); animation:pulseRing 2.2s ease-out infinite;}
+  @keyframes pulseRing{0%{transform:scale(.6);opacity:.9;}100%{transform:scale(2.3);opacity:0;}}
+
+  .hero h1{font-size:clamp(2.6rem,5.6vw,4rem); line-height:1.02; margin-bottom:18px;}
+  .hero h1 .grad-text{background:var(--grad); -webkit-background-clip:text; background-clip:text; color:transparent;}
+  .hero p.lead{color:var(--ink-dim); font-size:1.08rem; max-width:480px; margin-bottom:32px;}
+  .cta-row{display:flex; gap:14px; flex-wrap:wrap;}
+  .btn{font-family:'JetBrains Mono', monospace; font-size:.82rem; letter-spacing:.02em; padding:14px 24px; border-radius:10px; text-decoration:none; display:inline-flex; align-items:center; gap:8px; transition:transform .18s ease, box-shadow .18s ease; border:1px solid transparent; cursor:pointer; font-weight:500;}
+  .btn-primary{background:var(--grad); color:#070814;}
+  .btn-primary:hover{transform:translateY(-2px); box-shadow:0 12px 28px rgba(155,109,255,.35);}
+  .btn-ghost{border-color:var(--border-strong); color:var(--ink); background:var(--panel); backdrop-filter:blur(8px);}
+  .btn-ghost:hover{background:var(--panel-solid); transform:translateY(-2px);}
+
+  /* TERMINAL — signature element */
+  .terminal{background:var(--panel-solid); border:1px solid var(--border); border-radius:16px; box-shadow:var(--glow); overflow:hidden;}
+  .term-bar{display:flex; align-items:center; gap:8px; padding:13px 16px; border-bottom:1px solid var(--border); background:var(--panel);}
+  .term-dot{width:10px;height:10px;border-radius:50%;}
+  .term-bar .t1{background:#FF6459;} .term-bar .t2{background:#FFC02E;} .term-bar .t3{background:#28C93F;}
+  .term-title{margin-left:8px; font-family:'JetBrains Mono',monospace; font-size:.7rem; color:var(--ink-dim);}
+  .term-body{padding:20px 18px; font-family:'JetBrains Mono',monospace; font-size:.82rem; min-height:220px;}
+  .term-line{margin-bottom:9px; white-space:pre-wrap; word-break:break-word;}
+  .term-prompt{color:var(--cyan);}
+  .term-ok{color:#4ADE80;}
+  .term-dim{color:var(--ink-dim);}
+  .caret{display:inline-block; width:7px; height:15px; background:var(--cyan); vertical-align:middle; animation:blink 1s step-end infinite; margin-left:2px;}
+  @keyframes blink{50%{opacity:0;}}
+
+  /* REVEAL */
+  .reveal{opacity:0; transform:translateY(20px); transition:opacity .6s ease, transform .6s ease;}
+  .reveal.in{opacity:1; transform:translateY(0);}
+
+  /* ABOUT */
+  .about-grid{display:grid; grid-template-columns:1.4fr .9fr; gap:48px;}
+  @media (max-width:760px){.about-grid{grid-template-columns:1fr;}}
+  .about-grid p{color:var(--ink-dim); margin-bottom:14px;}
+  .fact-panel{background:var(--panel); border:1px solid var(--border); backdrop-filter:blur(10px); border-radius:16px; padding:26px; box-shadow:var(--shadow); height:fit-content;}
+  .fact-panel .fact{display:flex; justify-content:space-between; padding:11px 0; border-bottom:1px dashed var(--border); font-size:.88rem;}
+  .fact-panel .fact:last-child{border-bottom:none;}
+  .fact-panel .fact span:first-child{color:var(--ink-dim); font-family:'JetBrains Mono',monospace; font-size:.72rem;}
+
+  /* TIMELINE */
+  .timeline{position:relative; padding-left:30px; border-left:1px solid var(--border);}
+  .t-item{position:relative; padding-bottom:36px;}
+  .t-item:last-child{padding-bottom:0;}
+  .t-item::before{content:""; position:absolute; left:-35px; top:4px; width:10px; height:10px; border-radius:50%; background:var(--grad); box-shadow:0 0 10px var(--cyan);}
+  .t-date{font-family:'JetBrains Mono',monospace; font-size:.72rem; color:var(--cyan); margin-bottom:4px;}
+  .t-title{font-family:'Space Grotesk',sans-serif; font-size:1.15rem; font-weight:600;}
+  .t-org{color:var(--ink-dim); font-size:.88rem; margin-bottom:10px;}
+  .t-item ul{padding-left:18px; color:var(--ink-dim); font-size:.92rem;}
+  .t-item li{margin-bottom:5px;}
+  .badge-top{display:inline-block; margin-left:8px; font-family:'JetBrains Mono',monospace; font-size:.65rem; color:var(--bg); background:var(--grad); padding:3px 9px; border-radius:100px; font-weight:600;}
+
+  /* PROJECT CLOUD */
+  .pipeline{display:grid; grid-template-columns:repeat(5,1fr); gap:14px; margin-bottom:56px;}
+  @media (max-width:900px){.pipeline{grid-template-columns:repeat(2,1fr);}}
+  @media (max-width:520px){.pipeline{grid-template-columns:1fr;}}
+  .step{background:var(--panel); border:1px solid var(--border); backdrop-filter:blur(10px); border-radius:14px; padding:20px; box-shadow:var(--shadow); position:relative; transition:transform .2s, border-color .2s;}
+  .step:hover{transform:translateY(-4px); border-color:var(--border-strong);}
+  .step::before{content:""; position:absolute; top:0; left:0; right:0; height:3px; background:var(--grad); border-radius:14px 14px 0 0; opacity:0; transition:opacity .2s;}
+  .step:hover::before{opacity:1;}
+  .step .num{font-family:'JetBrains Mono',monospace; font-size:.7rem; background:var(--grad); -webkit-background-clip:text; background-clip:text; color:transparent; margin-bottom:10px; display:block; font-weight:700;}
+  .step h4{font-family:'Space Grotesk',sans-serif; font-weight:600; font-size:1rem; margin-bottom:6px;}
+  .step p{font-size:.82rem; color:var(--ink-dim);}
+
+  .glossary{display:grid; grid-template-columns:repeat(3,1fr); gap:14px;}
+  @media (max-width:760px){.glossary{grid-template-columns:repeat(2,1fr);}}
+  @media (max-width:480px){.glossary{grid-template-columns:1fr;}}
+  .g-card{border:1px solid var(--border); border-radius:14px; padding:18px; background:var(--panel); backdrop-filter:blur(10px); transition:border-color .2s, transform .2s;}
+  .g-card:hover{transform:translateY(-3px); border-color:var(--border-strong);}
+  .g-card .term{font-family:'JetBrains Mono',monospace; font-size:.78rem; color:var(--cyan); margin-bottom:6px; font-weight:600;}
+  .g-card p{font-size:.84rem; color:var(--ink-dim);}
+
+  .project-links{display:flex; gap:14px; margin-top:38px; flex-wrap:wrap;}
+  .link-card{flex:1; min-width:240px; border:1px solid var(--border); border-radius:14px; padding:19px 21px; background:var(--panel); backdrop-filter:blur(10px); text-decoration:none; display:flex; align-items:center; justify-content:space-between; box-shadow:var(--shadow); transition:transform .18s, border-color .18s;}
+  .link-card:hover{transform:translateY(-3px); border-color:var(--border-strong);}
+  .link-card .lc-title{font-family:'JetBrains Mono',monospace; font-size:.8rem; color:var(--ink); margin-bottom:3px; font-weight:600;}
+  .link-card .lc-sub{font-size:.74rem; color:var(--ink-dim);}
+  .link-card svg{color:var(--cyan);}
+
+  /* SKILLS */
+  .skill-block{margin-bottom:28px;}
+  .skill-block h4{font-family:'JetBrains Mono',monospace; font-size:.72rem; text-transform:uppercase; letter-spacing:.08em; color:var(--ink-dim); margin-bottom:12px;}
+  .tags{display:flex; flex-wrap:wrap; gap:10px;}
+  .tag{padding:8px 15px; border-radius:9px; border:1px solid var(--border); background:var(--panel); backdrop-filter:blur(8px); font-size:.84rem; color:var(--ink); font-family:'JetBrains Mono',monospace; transition:border-color .2s, transform .2s;}
+  .tag:hover{border-color:var(--border-strong); transform:translateY(-2px);}
+
+  /* CERTIF */
+  .cert-card{display:flex; align-items:center; gap:20px; border:1px solid var(--border); border-radius:16px; padding:24px; background:var(--panel); backdrop-filter:blur(10px); box-shadow:var(--shadow);}
+  .cert-icon{width:48px;height:48px;border-radius:12px;background:var(--grad); display:flex; align-items:center; justify-content:center; color:#070814; flex-shrink:0;}
+  .cert-card .ct{font-family:'Space Grotesk',sans-serif; font-weight:600; font-size:1.08rem;}
+  .cert-card .cs{color:var(--ink-dim); font-size:.85rem;}
+
+  /* LANG / INTERESTS */
+  .split-two{display:grid; grid-template-columns:1fr 1fr; gap:40px;}
+  @media (max-width:640px){.split-two{grid-template-columns:1fr;}}
+  .lang-row{display:flex; justify-content:space-between; padding:13px 0; border-bottom:1px dashed var(--border); font-size:.92rem;}
+  .lang-row span:last-child{color:var(--cyan); font-family:'JetBrains Mono',monospace; font-size:.78rem;}
+
+  /* CONTACT */
+  .contact-box{background:var(--panel); border:1px solid var(--border); backdrop-filter:blur(12px); border-radius:20px; padding:52px 44px; box-shadow:var(--glow); text-align:center; position:relative; overflow:hidden;}
+  .contact-box h2{margin-bottom:12px;}
+  .contact-box p{color:var(--ink-dim); margin-bottom:32px;}
+  .contact-links{display:flex; gap:16px; justify-content:center; flex-wrap:wrap;}
+  .clink{display:flex; align-items:center; gap:9px; border:1px solid var(--border-strong); border-radius:10px; padding:13px 19px; text-decoration:none; font-family:'JetBrains Mono',monospace; font-size:.82rem; color:var(--ink); transition:transform .18s, border-color .18s;}
+  .clink:hover{transform:translateY(-2px); border-color:var(--cyan);}
+
+  footer{border-top:1px solid var(--border); padding:28px 0; text-align:center; font-family:'JetBrains Mono',monospace; font-size:.72rem; color:var(--ink-dim); position:relative; z-index:2;}
+
+  @media (prefers-reduced-motion: reduce){
+    *{animation-duration:.001s !important; animation-iteration-count:1 !important; transition-duration:.001s !important; scroll-behavior:auto !important;}
+  }
+</style>
+</head>
+<body>
+
+<div class="aurora"><div class="blob b1" id="b1"></div><div class="blob b2" id="b2"></div><div class="blob b3" id="b3"></div></div>
+<div class="grain"></div>
+
+<nav>
+  <div class="nav-inner">
+    <div class="brand"><span class="dot"></span>M. Guindo</div>
+    <ul class="nav-links" id="navLinks">
+      <li><a href="#accueil">Accueil</a></li>
+      <li><a href="#apropos">À propos</a></li>
+      <li><a href="#experience">Expérience</a></li>
+      <li><a href="#projet-cloud">Projet Cloud</a></li>
+      <li><a href="#competences">Compétences</a></li>
+      <li><a href="#formation">Formation</a></li>
+      <li><a href="#contact">Contact</a></li>
+    </ul>
+    <div class="nav-right">
+      <button id="themeToggle" aria-label="Changer de thème">
+        <svg id="themeIcon" width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 12.8A9 9 0 1 1 11.2 3 7 7 0 0 0 21 12.8z"/></svg>
+      </button>
+      <button class="burger" id="burger" aria-label="Menu">
+        <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M3 6h18M3 12h18M3 18h18"/></svg>
+      </button>
+    </div>
+  </div>
+</nav>
+
+<header class="hero" id="accueil">
+  <div class="wrap hero-grid">
+    <div>
+      <div class="status-pill"><span class="pulse"></span> disponible — stage / alternance · Bamako, Mali</div>
+      <h1>Maïmouna Guindo<br>du code au <span class="grad-text">cluster.</span></h1>
+      <p class="lead">Étudiante en Master 1 MIAGE à l'INTEC SUP, je conçois des applications web et j'apprends à les déployer comme en production&nbsp;: conteneurs, orchestration, cloud.</p>
+      <div class="cta-row">
+        <a href="#projet-cloud" class="btn btn-primary">Voir le projet cloud</a>
+        <a href="#contact" class="btn btn-ghost">Me contacter</a>
+      </div>
+    </div>
+    <div class="terminal reveal">
+      <div class="term-bar"><span class="term-dot t1"></span><span class="term-dot t2"></span><span class="term-dot t3"></span><span class="term-title">deploy.sh</span></div>
+      <div class="term-body" id="termBody"></div>
+    </div>
+  </div>
+</header>
+
+<main>
+
+  <section id="apropos">
+    <div class="wrap">
+      <div class="eyebrow">à propos</div>
+      <h2>Une étudiante curieuse, côté systèmes d'information</h2>
+      <div class="about-grid" style="margin-top:36px;">
+        <div class="reveal">
+          <p>Passionnée par les systèmes d'information et les technologies numériques, je souhaite développer mes compétences à travers des expériences pratiques en développement informatique, gestion des données et solutions numériques.</p>
+          <p>Mon objectif&nbsp;: acquérir une solide expérience de terrain tout en contribuant activement à des projets innovants — du code jusqu'à son hébergement.</p>
+        </div>
+        <div class="fact-panel reveal">
+          <div class="fact"><span>LOCALISATION</span><span>Bamako, Mali</span></div>
+          <div class="fact"><span>FORMATION</span><span>Master 1 MIAGE</span></div>
+          <div class="fact"><span>ÉTABLISSEMENT</span><span>INTEC SUP</span></div>
+          <div class="fact"><span>LANGUES</span><span>FR (C1/C2) · EN (B1)</span></div>
+          <div class="fact"><span>STATUT</span><span>Ouverte aux opportunités</span></div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section id="experience">
+    <div class="wrap">
+      <div class="eyebrow">parcours</div>
+      <h2>Expérience professionnelle</h2>
+      <p class="section-sub">Une première expérience de terrain, au service de la direction et du personnel administratif.</p>
+      <div class="timeline reveal">
+        <div class="t-item">
+          <div class="t-date">09/2024 — Présent</div>
+          <div class="t-title">Assistante informatique bénévole</div>
+          <div class="t-org">Direction de l'Université INTEC SUP · Bamako, Mali</div>
+          <ul>
+            <li>Assistance à la direction dans l'utilisation des outils informatiques et numériques.</li>
+            <li>Gestion et organisation de documents numériques.</li>
+            <li>Appui technique de premier niveau auprès du personnel administratif.</li>
+            <li>Participation à la saisie, au traitement et à la mise à jour de données.</li>
+            <li>Accompagnement des utilisateurs dans l'utilisation des outils bureautiques et collaboratifs.</li>
+            <li>Contribution à l'organisation et au suivi de certaines activités administratives.</li>
+          </ul>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section id="projet-cloud">
+    <div class="wrap">
+      <div class="eyebrow">cours de cloud computing</div>
+      <h2>Projet — du code au cluster</h2>
+      <p class="section-sub">Exercice mené dans le cadre du cours de Cloud Computing&nbsp;: développer une application, la conteneuriser, la versionner sur GitHub, comprendre son orchestration avec Kubernetes, puis l'héberger sur Render.</p>
+
+      <div class="pipeline reveal">
+        <div class="step"><span class="num">01</span><h4>Développement</h4><p>Application construite en PHP avec Laravel / Symfony.</p></div>
+        <div class="step"><span class="num">02</span><h4>Conteneurisation</h4><p>Empaquetage de l'app dans une image Docker portable.</p></div>
+        <div class="step"><span class="num">03</span><h4>Versioning</h4><p>Code source publié et suivi sur GitHub.</p></div>
+        <div class="step"><span class="num">04</span><h4>Orchestration</h4><p>Notions de cluster Kubernetes&nbsp;: nodes, pods, services.</p></div>
+        <div class="step"><span class="num">05</span><h4>Hébergement</h4><p>Déploiement continu de l'application sur Render.</p></div>
+      </div>
+
+      <div class="eyebrow" style="margin-bottom:20px;">concepts explorés</div>
+      <div class="glossary reveal">
+        <div class="g-card"><div class="term">$ cluster</div><p>Ensemble de machines (nodes) qui travaillent ensemble pour exécuter une application de façon fiable.</p></div>
+        <div class="g-card"><div class="term">$ node</div><p>Une machine, physique ou virtuelle, membre du cluster et hébergeant des pods.</p></div>
+        <div class="g-card"><div class="term">$ pod</div><p>La plus petite unité déployable dans Kubernetes&nbsp;: un ou plusieurs conteneurs exécutés ensemble.</p></div>
+        <div class="g-card"><div class="term">$ service</div><p>Point d'accès stable qui expose et équilibre le trafic vers un groupe de pods.</p></div>
+        <div class="g-card"><div class="term">$ scaling</div><p>Ajustement automatique du nombre de pods selon la charge de l'application.</p></div>
+        <div class="g-card"><div class="term">$ deploy</div><p>Publication continue d'une nouvelle version de l'application vers l'environnement hébergé.</p></div>
+      </div>
+
+      <div class="project-links reveal">
+        <a class="link-card" href="https://github.com/mounaguindo" target="_blank" rel="noopener">
+          <div><div class="lc-title">Dépôt GitHub</div><div class="lc-sub">Code source du projet — github.com/mounaguindo</div></div>
+          <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M7 17L17 7M17 7H8M17 7v9"/></svg>
+        </a>
+        <a class="link-card" href="#" onclick="return false;">
+          <div><div class="lc-title">Démo sur Render</div><div class="lc-sub">Lien à ajouter une fois l'application déployée</div></div>
+          <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M7 17L17 7M17 7H8M17 7v9"/></svg>
+        </a>
+      </div>
+    </div>
+  </section>
+
+  <section id="competences">
+    <div class="wrap">
+      <div class="eyebrow">boîte à outils</div>
+      <h2>Compétences</h2>
+      <div class="reveal" style="margin-top:36px;">
+        <div class="skill-block">
+          <h4>Langages</h4>
+          <div class="tags"><span class="tag">PHP</span><span class="tag">JavaScript</span><span class="tag">SQL</span></div>
+        </div>
+        <div class="skill-block">
+          <h4>Frameworks</h4>
+          <div class="tags"><span class="tag">Laravel</span><span class="tag">Symfony</span></div>
+        </div>
+        <div class="skill-block">
+          <h4>Bases de données</h4>
+          <div class="tags"><span class="tag">PostgreSQL</span></div>
+        </div>
+        <div class="skill-block">
+          <h4>Cloud & outils</h4>
+          <div class="tags"><span class="tag">AWS (notions)</span><span class="tag">Docker</span><span class="tag">Kubernetes (notions)</span><span class="tag">Render</span><span class="tag">Git & GitHub</span><span class="tag">Suite Microsoft Office</span></div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section id="formation">
+    <div class="wrap">
+      <div class="eyebrow">académique</div>
+      <h2>Formation</h2>
+      <div class="timeline reveal" style="margin-top:36px;">
+        <div class="t-item">
+          <div class="t-date">2025 — Présent</div>
+          <div class="t-title">Master 1 MIAGE</div>
+          <div class="t-org">INTEC SUP · Bamako, Mali</div>
+        </div>
+        <div class="t-item">
+          <div class="t-date">2022 — 2025</div>
+          <div class="t-title">Licence en Programmation et Développement Informatique <span class="badge-top">major de promo</span></div>
+          <div class="t-org">INTEC SUP · Bamako, Mali</div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section id="certifications">
+    <div class="wrap">
+      <div class="eyebrow">certification</div>
+      <h2>Certifications</h2>
+      <div class="cert-card reveal" style="margin-top:36px;">
+        <div class="cert-icon">
+          <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 2l8 4v6c0 5-3.5 8-8 10-4.5-2-8-5-8-10V6l8-4z"/><path d="M9 12l2 2 4-4"/></svg>
+        </div>
+        <div>
+          <div class="ct">AWS Cloud Practitioner</div>
+          <div class="cs">Orange Digital Center Mali</div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section id="langues-interets">
+    <div class="wrap split-two reveal">
+      <div>
+        <div class="eyebrow">langues</div>
+        <h2 style="font-size:1.4rem; margin-bottom:20px;">Langues</h2>
+        <div class="lang-row"><span>Français</span><span>Courant · C1/C2</span></div>
+        <div class="lang-row"><span>Anglais</span><span>Intermédiaire · B1</span></div>
+      </div>
+      <div>
+        <div class="eyebrow">à côté</div>
+        <h2 style="font-size:1.4rem; margin-bottom:20px;">Centres d'intérêt</h2>
+        <div class="tags">
+          <span class="tag">Lecture</span>
+          <span class="tag">Technologies numériques</span>
+          <span class="tag">Découverte de la nature</span>
+          <span class="tag">Apprentissage en ligne</span>
+          <span class="tag">Résolution de problèmes</span>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section id="contact">
+    <div class="wrap">
+      <div class="contact-box reveal">
+        <div class="eyebrow" style="justify-content:center;">contact</div>
+        <h2>Discutons de votre prochain projet</h2>
+        <p>Ouverte aux stages, alternances et collaborations autour du développement et du cloud.</p>
+        <div class="contact-links">
+          <a class="clink" href="mailto:maimouna.guindo.dev@gmail.com">
+            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M4 4h16v16H4z"/><path d="M4 6l8 7 8-7"/></svg>
+            maimouna.guindo.dev@gmail.com
+          </a>
+          <a class="clink" href="tel:+22372709659">
+            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M22 16.9v3a2 2 0 0 1-2.2 2 19.8 19.8 0 0 1-8.6-3.1 19.5 19.5 0 0 1-6-6A19.8 19.8 0 0 1 2.1 4.2 2 2 0 0 1 4.1 2h3a2 2 0 0 1 2 1.7c.1.9.3 1.8.6 2.7a2 2 0 0 1-.4 2.1L8 9.9a16 16 0 0 0 6 6l1.4-1.3a2 2 0 0 1 2.1-.4c.9.3 1.8.5 2.7.6a2 2 0 0 1 1.8 2z"/></svg>
+            +223 72 70 96 59
+          </a>
+          <a class="clink" href="https://www.linkedin.com/in/mouna-guindo-9953b1315/" target="_blank" rel="noopener">
+            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="2" y="9" width="4" height="12"/><circle cx="4" cy="4" r="2"/><path d="M10 9h4v2s1.5-2 4-2 4 1.5 4 5v7h-4v-6c0-1.5-1-2-2-2s-2 .5-2 2v6h-4z"/></svg>
+            LinkedIn
+          </a>
+          <a class="clink" href="https://github.com/mounaguindo" target="_blank" rel="noopener">
+            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M9 19c-4.3 1.4-4.3-2.5-6-3m12 5v-3.5c0-1 .1-1.4-.5-2 2.8-.3 5.5-1.4 5.5-6a4.6 4.6 0 0 0-1.3-3.2 4.2 4.2 0 0 0-.1-3.2s-1.1-.3-3.5 1.3a12.3 12.3 0 0 0-6.2 0C6.5 2.8 5.4 3.1 5.4 3.1a4.2 4.2 0 0 0-.1 3.2A4.6 4.6 0 0 0 4 9.5c0 4.6 2.7 5.7 5.5 6-.6.6-.6 1.2-.5 2V21"/></svg>
+            GitHub
+          </a>
+        </div>
+      </div>
+    </div>
+  </section>
+
+</main>
+
+<footer>
+  Conçu et développé par Maïmouna Guindo — projet du cours de Cloud Computing
+</footer>
+
+<script>
+  // theme toggle
+  const root = document.documentElement;
+  const toggle = document.getElementById('themeToggle');
+  const themeIcon = document.getElementById('themeIcon');
+  function setIcon(theme){
+    themeIcon.innerHTML = theme === 'dark'
+      ? '<path d="M21 12.8A9 9 0 1 1 11.2 3 7 7 0 0 0 21 12.8z"/>'
+      : '<circle cx="12" cy="12" r="4.5"/><path d="M12 2v3M12 19v3M4.2 4.2l2.1 2.1M17.7 17.7l2.1 2.1M2 12h3M19 12h3M4.2 19.8l2.1-2.1M17.7 6.3l2.1-2.1"/>';
+  }
+  setIcon('dark');
+  toggle.addEventListener('click', () => {
+    const next = root.getAttribute('data-theme') === 'dark' ? 'light' : 'dark';
+    root.setAttribute('data-theme', next);
+    setIcon(next);
+  });
+
+  // mobile nav
+  const burger = document.getElementById('burger');
+  const navLinks = document.getElementById('navLinks');
+  burger.addEventListener('click', () => navLinks.classList.toggle('open'));
+  navLinks.querySelectorAll('a').forEach(a => a.addEventListener('click', () => navLinks.classList.remove('open')));
+
+  // scroll reveal
+  const revealEls = document.querySelectorAll('.reveal');
+  const io = new IntersectionObserver((entries) => {
+    entries.forEach(e => { if (e.isIntersecting){ e.target.classList.add('in'); io.unobserve(e.target); } });
+  }, { threshold: 0.15 });
+  revealEls.forEach(el => io.observe(el));
+
+  // active nav link on scroll
+  const sections = document.querySelectorAll('main section, header.hero');
+  const links = document.querySelectorAll('.nav-links a');
+  const navObs = new IntersectionObserver((entries) => {
+    entries.forEach(entry => {
+      if (entry.isIntersecting){
+        const id = entry.target.getAttribute('id');
+        links.forEach(l => l.classList.toggle('active', l.getAttribute('href') === '#' + id));
+      }
+    });
+  }, { threshold: 0.5 });
+  sections.forEach(s => navObs.observe(s));
+
+  // parallax aurora blobs on mouse move
+  const blobs = [document.getElementById('b1'), document.getElementById('b2'), document.getElementById('b3')];
+  const strengths = [18, -14, 10];
+  window.addEventListener('mousemove', (e) => {
+    const x = (e.clientX / window.innerWidth - .5);
+    const y = (e.clientY / window.innerHeight - .5);
+    blobs.forEach((b, i) => { if(b) b.style.transform = `translate(${x*strengths[i]}px, ${y*strengths[i]}px)`; });
+  });
+
+  // terminal typing animation
+  const termLines = [
+    { text: '$ git push origin main', cls: 'term-prompt' },
+    { text: 'remote: Déploiement sur GitHub réussi ✓', cls: 'term-ok' },
+    { text: '$ docker build -t maimouna-app .', cls: 'term-prompt' },
+    { text: 'Image construite avec succès ✓', cls: 'term-ok' },
+    { text: '$ kubectl apply -f cluster.yaml', cls: 'term-prompt' },
+    { text: 'cluster/app-cluster créé · pods 3/3 running ✓', cls: 'term-ok' },
+    { text: '$ render deploy', cls: 'term-prompt' },
+    { text: '✓ Application en ligne sur Render', cls: 'term-ok' },
+  ];
+  const termBody = document.getElementById('termBody');
+  let lineIdx = 0, charIdx = 0;
+
+  function typeLoop(){
+    if (lineIdx >= termLines.length){
+      setTimeout(() => { termBody.innerHTML=''; lineIdx=0; charIdx=0; typeLoop(); }, 1800);
+      return;
+    }
+    const current = termLines[lineIdx];
+    if (charIdx === 0){
+      const div = document.createElement('div');
+      div.className = 'term-line ' + current.cls;
+      div.id = 'activeLine';
+      termBody.appendChild(div);
+    }
+    const activeLine = document.getElementById('activeLine');
+    charIdx++;
+    activeLine.textContent = current.text.slice(0, charIdx);
+    if (charIdx < current.text.length){
+      setTimeout(typeLoop, current.cls === 'term-prompt' ? 32 : 14);
+    } else {
+      activeLine.removeAttribute('id');
+      lineIdx++; charIdx = 0;
+      setTimeout(typeLoop, current.cls === 'term-ok' ? 480 : 220);
+    }
+  }
+  typeLoop();
+</script>
+
+</body>
+</html>
